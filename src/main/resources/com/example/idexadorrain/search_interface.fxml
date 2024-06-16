@@ -21,8 +21,6 @@
         </HBox>
         <TableView fx:id="resultsTable" prefHeight="400.0">
             <columns>
-                <TableColumn fx:id="nameColumn" text="File Name" prefWidth="200.0"/>
-                <TableColumn fx:id="typeColumn" text="File Type" prefWidth="100.0"/>
                 <TableColumn fx:id="pathColumn" text="File Path" prefWidth="300.0"/>
             </columns>
         </TableView>

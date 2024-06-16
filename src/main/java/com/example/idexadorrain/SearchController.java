@@ -1,5 +1,6 @@
 package com.example.idexadorrain;
 
+import com.example.idexadorrain.buscador.BuscadorDeDocumentos;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,8 +13,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.store.Directory;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SearchController {
 
@@ -27,48 +31,42 @@ public class SearchController {
     private TableView<FileResult> resultsTable;
 
     @FXML
-    private TableColumn<FileResult, String> nameColumn;
-
-    @FXML
-    private TableColumn<FileResult, String> typeColumn;
-
-    @FXML
     private TableColumn<FileResult, String> pathColumn;
 
     private ObservableList<FileResult> searchResults;
 
-    private String fileType;
+    private BuscadorDeDocumentos searcher;
 
     @FXML
     private void initialize() {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("fileType"));
         pathColumn.setCellValueFactory(new PropertyValueFactory<>("filePath"));
-
         searchResults = FXCollections.observableArrayList();
         resultsTable.setItems(searchResults);
     }
 
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
+    public void setDirectoryIndex(Directory directoryIndex) {
+        this.searcher = new BuscadorDeDocumentos(directoryIndex);
     }
 
     @FXML
-    private void handleSearch() {
+    private void handleSearch() throws IOException, ParseException {
         String searchText = searchField.getText();
 
-        if (searchText != null && !searchText.isEmpty() && fileType != null) {
-            performSearch(searchText, fileType);
+        if (searchText != null && !searchText.isEmpty()) {
+            performSearch(searchText);
         }
     }
 
-    private void performSearch(String searchText, String fileType) {
+    private void performSearch(String searchText) throws IOException, ParseException {
         // Aquí iría la lógica de búsqueda.
+        List<String> results = searcher.search(searchText);
+        List<FileResult> re = results.stream().map(FileResult::new).toList();
         // Vamos a agregar algunos resultados de ejemplo.
         searchResults.clear();
-        searchResults.add(new FileResult("Example1", "PDF", "/path/to/example1.pdf"));
-        searchResults.add(new FileResult("Example2", "Word", "/path/to/example2.docx"));
-        searchResults.add(new FileResult("Example3", "Excel", "/path/to/example3.xlsx"));
+        searchResults.addAll(re);
+        //searchResults.add(new FileResult( "/path/to/example1.pdf"));
+        //searchResults.add(new FileResult( "/path/to/example2.docx"));
+        //searchResults.add(new FileResult( "/path/to/example3.xlsx"));
     }
 
     @FXML

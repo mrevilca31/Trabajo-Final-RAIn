@@ -9,6 +9,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -20,23 +21,41 @@ public class Indexador {
     public Indexador(String pathToSaveIndexador) throws IOException {
         this.extraxtorDeContenido = new ExtractorDeContenido();
         this.analyzer = new StandardAnalyzer();
+        limpiarDirectorioIndice(pathToSaveIndexador);
         this.directorioIndice = FSDirectory.open(Paths.get(pathToSaveIndexador));
     }
 
-    public void indexDocument(String filePath, TiposDeArchivos tipoArchivoIndexar) throws IOException, IOException {
+    private void limpiarDirectorioIndice(String directoryPath){
+        File directory = new File(directoryPath);
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        file.delete();
+                    }
+                }
+            }
+        } else {
+            System.out.println("El directorio especificado no existe o no es un directorio.");
+        }
+    }
+
+    public void indexDocument(String filePath, String tipoArchivoIndexar) throws IOException, IOException {
         String content="";
         switch (tipoArchivoIndexar) {
-            case PDF -> {
+            case "PDF" -> {
                 if (filePath.endsWith(".pdf")) {
                     content = extraxtorDeContenido.extraerContenidoPdf(filePath);
                 }
             }
-            case WORD -> {
+            case "WORD" -> {
                 if (filePath.endsWith(".doc") || filePath.endsWith(".docx")) {
                     content = extraxtorDeContenido.extraerContenidoWord(filePath);
                 }
             }
-            case EXCEL -> {
+            case "EXCEL" -> {
                 if (filePath.endsWith(".xls") || filePath.endsWith(".xlsx")) {
                     content = extraxtorDeContenido.extraerContenidoExcel(filePath);
                 }
