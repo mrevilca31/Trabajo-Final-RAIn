@@ -1,6 +1,5 @@
 package com.example.idexadorrain;
 
-import com.example.idexadorrain.SearchController;
 import com.example.idexadorrain.indexador.Indexador;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -51,7 +50,7 @@ public class FileTypeSelectionController {
                 }
 
                 // inicio carga de interfaz buscador
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("search_interface.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("busqueda_interface.fxml"));
                 Parent root = loader.load();
 
                 SearchController searchController = loader.getController();

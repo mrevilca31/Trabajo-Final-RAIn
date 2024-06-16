@@ -83,7 +83,7 @@ public class SearchController {
     @FXML
     private void handleBack() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("file_type_selection.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("seleccion_tipo_archivo_interfaz.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) searchField.getScene().getWindow();
             stage.setScene(new Scene(root, 400, 200));

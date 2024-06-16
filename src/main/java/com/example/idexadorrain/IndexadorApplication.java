@@ -8,11 +8,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class IndexadorApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("file_type_selection.fxml"));
-        primaryStage.setTitle("File Searcher");
+        Parent root = FXMLLoader.load(getClass().getResource("seleccion_tipo_archivo_interfaz.fxml"));
+        primaryStage.setTitle("Indexador - TP Final - RAIN");
         primaryStage.setScene(new Scene(root, 400, 200));
         primaryStage.show();
     }

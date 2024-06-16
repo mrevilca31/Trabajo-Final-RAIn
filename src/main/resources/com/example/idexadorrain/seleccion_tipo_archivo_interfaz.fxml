@@ -7,7 +7,7 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.idexadorrain.FileTypeSelectionController" alignment="CENTER" spacing="20">
-    <ComboBox fx:id="fileTypeComboBox" promptText="Select file type">
+    <ComboBox fx:id="fileTypeComboBox" promptText="Selecccione el tipo de archivo a indexar">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="PDF"/>
@@ -16,6 +16,6 @@
             </FXCollections>
         </items>
     </ComboBox>
-    <Button text="Continue" onAction="#handleContinue"/>
+    <Button text="Continuar" onAction="#handleContinue"/>
 </VBox>
 
