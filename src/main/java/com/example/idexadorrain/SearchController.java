@@ -3,20 +3,22 @@ package com.example.idexadorrain;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class SearchController {
 
     @FXML
     private TextField searchField;
-
-    @FXML
-    private ComboBox<String> fileTypeComboBox;
 
     @FXML
     private Button searchButton;
@@ -35,10 +37,10 @@ public class SearchController {
 
     private ObservableList<FileResult> searchResults;
 
+    private String fileType;
+
     @FXML
     private void initialize() {
-        fileTypeComboBox.setItems(FXCollections.observableArrayList("PDF", "Word", "Excel"));
-
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("fileType"));
         pathColumn.setCellValueFactory(new PropertyValueFactory<>("filePath"));
@@ -47,10 +49,13 @@ public class SearchController {
         resultsTable.setItems(searchResults);
     }
 
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
     @FXML
     private void handleSearch() {
         String searchText = searchField.getText();
-        String fileType = fileTypeComboBox.getValue();
 
         if (searchText != null && !searchText.isEmpty() && fileType != null) {
             performSearch(searchText, fileType);
@@ -69,8 +74,18 @@ public class SearchController {
     @FXML
     private void handleClear() {
         searchField.clear();
-        fileTypeComboBox.getSelectionModel().clearSelection();
         searchResults.clear();
     }
-}
 
+    @FXML
+    private void handleBack() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("file_type_selection.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) searchField.getScene().getWindow();
+            stage.setScene(new Scene(root, 400, 200));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

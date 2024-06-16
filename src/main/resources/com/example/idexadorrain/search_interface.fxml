@@ -16,15 +16,6 @@
     <VBox spacing="10" alignment="TOP_CENTER" AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <HBox spacing="10">
             <TextField fx:id="searchField" promptText="Enter text to search"/>
-            <ComboBox fx:id="fileTypeComboBox">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="PDF"/>
-                        <String fx:value="Word"/>
-                        <String fx:value="Excel"/>
-                    </FXCollections>
-                </items>
-            </ComboBox>
             <Button text="Search" onAction="#handleSearch"/>
             <Button text="Clear" onAction="#handleClear"/>
         </HBox>
@@ -35,6 +26,7 @@
                 <TableColumn fx:id="pathColumn" text="File Path" prefWidth="300.0"/>
             </columns>
         </TableView>
+        <Button text="Back" onAction="#handleBack"/>
     </VBox>
 </AnchorPane>
 

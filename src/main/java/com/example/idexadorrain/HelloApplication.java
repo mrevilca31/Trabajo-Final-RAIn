@@ -11,9 +11,9 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("search_interface.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("file_type_selection.fxml"));
         primaryStage.setTitle("File Searcher");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.setScene(new Scene(root, 400, 200));
         primaryStage.show();
     }
 
