@@ -1,4 +1,4 @@
-package com.example.idexadorrain;
+package com.example.idexadorrain.buscador;
 
 public class FileResult {
     private String filePath;

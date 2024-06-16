@@ -11,4 +11,6 @@ module com.example.idexadorrain {
 
     opens com.example.idexadorrain to javafx.fxml;
     exports com.example.idexadorrain;
+    exports com.example.idexadorrain.buscador;
+    opens com.example.idexadorrain.buscador to javafx.fxml;
 }

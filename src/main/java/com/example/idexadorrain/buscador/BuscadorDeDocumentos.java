@@ -15,17 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuscadorDeDocumentos {
-    private StandardAnalyzer analyzer = new StandardAnalyzer();
-    private Directory index;
+    private StandardAnalyzer analizador = new StandardAnalyzer();
+    private Directory indice;
 
-    public BuscadorDeDocumentos(Directory index){
-        this.index = index;
+    public BuscadorDeDocumentos(Directory indexDirectory){
+        this.indice = indexDirectory;
     }
 
 
     public List<String> search(String queryStr) throws IOException, ParseException {
-        Query q = new QueryParser("content", analyzer).parse(queryStr);
-        try (DirectoryReader reader = DirectoryReader.open(index)) {
+        Query q = new QueryParser("content", analizador).parse(queryStr);
+        try (DirectoryReader reader = DirectoryReader.open(indice)) {
             IndexSearcher searcher = new IndexSearcher(reader);
             TopDocs docs = searcher.search(q, 10);
             ScoreDoc[] hits = docs.scoreDocs;

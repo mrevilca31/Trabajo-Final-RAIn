@@ -21,7 +21,7 @@
         </HBox>
         <TableView fx:id="resultsTable" prefHeight="400.0">
             <columns>
-                <TableColumn fx:id="pathColumn" text="File Path" prefWidth="300.0"/>
+                <TableColumn fx:id="pathColumn" text="File Path"/>
             </columns>
         </TableView>
         <Button text="Back" onAction="#handleBack"/>

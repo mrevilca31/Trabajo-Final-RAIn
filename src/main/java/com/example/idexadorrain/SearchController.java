@@ -1,6 +1,7 @@
 package com.example.idexadorrain;
 
 import com.example.idexadorrain.buscador.BuscadorDeDocumentos;
+import com.example.idexadorrain.buscador.FileResult;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,16 +38,22 @@ public class SearchController {
 
     private BuscadorDeDocumentos searcher;
 
+
     @FXML
     private void initialize() {
         pathColumn.setCellValueFactory(new PropertyValueFactory<>("filePath"));
         searchResults = FXCollections.observableArrayList();
         resultsTable.setItems(searchResults);
+        resultsTable.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            pathColumn.setPrefWidth(newWidth.doubleValue() - 2);
+        });
     }
+
 
     public void setDirectoryIndex(Directory directoryIndex) {
         this.searcher = new BuscadorDeDocumentos(directoryIndex);
     }
+
 
     @FXML
     private void handleSearch() throws IOException, ParseException {
@@ -57,23 +64,21 @@ public class SearchController {
         }
     }
 
+
     private void performSearch(String searchText) throws IOException, ParseException {
-        // Aquí iría la lógica de búsqueda.
         List<String> results = searcher.search(searchText);
         List<FileResult> re = results.stream().map(FileResult::new).toList();
-        // Vamos a agregar algunos resultados de ejemplo.
         searchResults.clear();
         searchResults.addAll(re);
-        //searchResults.add(new FileResult( "/path/to/example1.pdf"));
-        //searchResults.add(new FileResult( "/path/to/example2.docx"));
-        //searchResults.add(new FileResult( "/path/to/example3.xlsx"));
     }
+
 
     @FXML
     private void handleClear() {
         searchField.clear();
         searchResults.clear();
     }
+
 
     @FXML
     private void handleBack() {

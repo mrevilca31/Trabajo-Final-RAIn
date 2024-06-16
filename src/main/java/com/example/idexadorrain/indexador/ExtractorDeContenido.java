@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class ExtractorDeContenido {
+
     public String extraerContenidoPdf(String filePath) throws IOException {
         try (PDDocument document = PDDocument.load(new File(filePath))) {
             PDFTextStripper stripper = new PDFTextStripper();

@@ -17,19 +17,21 @@ public class Indexador {
     private ExtractorDeContenido extraxtorDeContenido;
     private StandardAnalyzer analyzer;
     private Directory directorioIndice;
+    private IndexWriter writer;
+
 
     public Indexador(String pathToSaveIndexador) throws IOException {
         this.extraxtorDeContenido = new ExtractorDeContenido();
         this.analyzer = new StandardAnalyzer();
         limpiarDirectorioIndice(pathToSaveIndexador);
-        this.directorioIndice = FSDirectory.open(Paths.get(pathToSaveIndexador));
+        iniciarIndexWriter(pathToSaveIndexador);
     }
+
 
     private void limpiarDirectorioIndice(String directoryPath){
         File directory = new File(directoryPath);
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
-
             if (files != null) {
                 for (File file : files) {
                     if (file.isFile()) {
@@ -38,11 +40,23 @@ public class Indexador {
                 }
             }
         } else {
-            System.out.println("El directorio especificado no existe o no es un directorio.");
+            if (directory.mkdirs()) {
+                System.out.println("Directorio creado: " + directoryPath);
+            } else {
+                System.out.println("No se pudo crear el directorio: " + directoryPath);
+            }
         }
     }
 
-    public void indexDocument(String filePath, String tipoArchivoIndexar) throws IOException, IOException {
+
+    private void iniciarIndexWriter(String pathToSaveIndice) throws IOException {
+        this.directorioIndice = FSDirectory.open(Paths.get(pathToSaveIndice));
+        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        this.writer = new IndexWriter(directorioIndice, config);
+    }
+
+
+    public void indexarDocumento(String filePath, String tipoArchivoIndexar) throws IOException {
         String content="";
         switch (tipoArchivoIndexar) {
             case "PDF" -> {
@@ -63,20 +77,20 @@ public class Indexador {
         }
         if(!content.equals("")){
             addDoc(filePath, content);
-            System.out.println("Se indexo: " + filePath);
-        } else {
-            System.out.println("Sin contenido: " + filePath);
         }
     }
 
+
     private void addDoc(String filePath, String content) throws IOException {
-        IndexWriterConfig config = new IndexWriterConfig(analyzer);
-        IndexWriter w = new IndexWriter(directorioIndice, config);
         Document doc = new Document();
         doc.add(new TextField("path", filePath, Field.Store.YES));
         doc.add(new TextField("content", content, Field.Store.YES));
-        w.addDocument(doc);
-        w.close();
+        this.writer.addDocument(doc);
+    }
+
+
+    public void closeIndexador() throws IOException {
+        this.writer.close();
     }
 
 
