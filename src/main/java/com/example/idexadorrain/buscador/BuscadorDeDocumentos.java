@@ -24,7 +24,7 @@ public class BuscadorDeDocumentos {
 
 
     public List<String> search(String queryStr) throws IOException, ParseException {
-        Query q = new QueryParser("content", analizador).parse(queryStr);
+        Query q = new QueryParser("content", analizador).parse("\""+queryStr+"\"");
         try (DirectoryReader reader = DirectoryReader.open(indice)) {
             IndexSearcher searcher = new IndexSearcher(reader);
             TopDocs docs = searcher.search(q, 10);

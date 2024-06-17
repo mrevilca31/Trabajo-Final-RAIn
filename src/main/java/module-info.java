@@ -8,6 +8,7 @@ module com.example.idexadorrain {
     requires org.apache.poi.ooxml;
     requires lucene.core;
     requires lucene.queryparser;
+    requires java.desktop;
 
     opens com.example.idexadorrain to javafx.fxml;
     exports com.example.idexadorrain;
